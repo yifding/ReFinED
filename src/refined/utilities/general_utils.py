@@ -124,12 +124,21 @@ def get_tokenizer(
     :param add_special_tokens: Huggingface arg.
     """
     if data_dir is not None and os.path.exists(os.path.join(data_dir, transformer_name)):
-        tokenizer = AutoTokenizer.from_pretrained(
-            os.path.join(data_dir, transformer_name),
-            use_fast=use_fast,
-            add_special_tokens=add_special_tokens,
-            add_prefix_space=add_prefix_space
-        )
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(
+                os.path.join(data_dir, transformer_name),
+                use_fast=use_fast,
+                add_special_tokens=add_special_tokens,
+                add_prefix_space=add_prefix_space
+            )
+        except:
+            tokenizer = AutoTokenizer.from_pretrained(
+                os.path.join(data_dir, transformer_name),
+                use_fast=use_fast,
+                # add_special_tokens=add_special_tokens,
+                add_prefix_space=add_prefix_space
+            )
+
     else:
         tokenizer = AutoTokenizer.from_pretrained(
             transformer_name,

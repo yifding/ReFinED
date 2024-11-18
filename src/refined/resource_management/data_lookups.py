@@ -77,12 +77,20 @@ class LookupsInferenceOnly:
             self.nltk_sentence_splitter_english: PunktSentenceTokenizer = pickle.load(f)
 
         # can be shared
-        self.tokenizers: PreTrainedTokenizer = AutoTokenizer.from_pretrained(
-            os.path.dirname(resource_to_file_path["roberta_base_model"]),
-            add_special_tokens=False,
-            add_prefix_space=False,
-            use_fast=True,
-        )
+        try:
+            self.tokenizers: PreTrainedTokenizer = AutoTokenizer.from_pretrained(
+                os.path.dirname(resource_to_file_path["roberta_base_model"]),
+                add_special_tokens=False,
+                add_prefix_space=False,
+                use_fast=True,
+            )
+        except:
+            self.tokenizers: PreTrainedTokenizer = AutoTokenizer.from_pretrained(
+                os.path.dirname(resource_to_file_path["roberta_base_model"]),
+                # add_special_tokens=False,
+                add_prefix_space=False,
+                use_fast=True,
+            )
 
         self.transformer_model_config = AutoConfig.from_pretrained(
             os.path.dirname(resource_to_file_path["roberta_base_model"])
